@@ -1,7 +1,7 @@
 package com.example.controller;
 
 import com.example.model.User;
-import com.example.repository.UserRepository;
+import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @RequestMapping("/")
     public String getMainPage() {
@@ -27,12 +27,12 @@ public class MainController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "user/{id}", method = RequestMethod.GET)
-    public ResponseEntity<User> getUser(@PathVariable Long id) throws Exception {
-        User user = userRepository.findOne(id);
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> getUser(@PathVariable Long id) throws Exception {
+        try{
+            return new ResponseEntity<User>(userService.findOne(id), HttpStatus.FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(user, HttpStatus.FOUND);
     }
 
 }

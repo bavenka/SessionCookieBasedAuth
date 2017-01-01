@@ -1,4 +1,4 @@
-package com.example.service;
+package com.example.service.impl;
 
 import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
