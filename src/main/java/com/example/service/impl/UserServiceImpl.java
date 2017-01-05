@@ -26,11 +26,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findOne(long id) throws Exception {
         logger.info("Fetching User with id {}", id);
-        User user = userRepository.findOne(id);
-        if (user == null) {
-            logger.error("User with id {} not found.", id);
-            throw new Exception("User with id " + id + " not found.");
-        }
-        return user;
+        return userRepository.findOne(id).orElseThrow(() ->
+                new Exception("User with id " + id + " not found."));
     }
 }

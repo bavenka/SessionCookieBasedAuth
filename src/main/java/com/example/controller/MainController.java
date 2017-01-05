@@ -20,11 +20,6 @@ public class MainController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/")
-    public String getMainPage() {
-        return "/index.html";
-    }
-
     @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping(value = "user/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getUser(@PathVariable Long id) throws Exception {
